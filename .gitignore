@@ -134,3 +134,7 @@ audit_log.json
 payrollnextgen.db
 __pycache__/
 *.pyc
+
+test-app/
+*.db
+*.json (except package.json, leave audit_log.json optional)
