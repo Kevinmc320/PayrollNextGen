@@ -1,4 +1,5 @@
 # PayrollNextGen Full Specification 
+
 PayrollNextGen Features (UK/Ireland Launch + Sister Platforms) Core PayrollNextGen (SME/General Market)  
 - Live HMRC/Revenue.ie RTI: Real-time FPS/EPS, 26th cutoff, auto-adjustments (backend/)  
 - Payroll Processing: PAYE, NI, PRSI, pensions; BACS, direct deposit, checks, crypto options (backend/)  
