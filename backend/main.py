@@ -1,4 +1,3 @@
-print("Core Payroll Processing") 
 # backend/main.py - Core Payroll Processing for PayrollNextGen
 import sys
 
