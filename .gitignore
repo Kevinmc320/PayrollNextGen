@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# PayrollNextGen runtime files
+audit_log.json
+payrollnextgen.db
+__pycache__/
+*.pyc
