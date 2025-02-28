@@ -1,54 +1,61 @@
-// apps/core/main.js - Employee App Stub for PayrollNextGen (Core)
+// apps/core/main.js - Employee App with Backend API and Biometric Stub
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-// Mock backend data (replace with API call later)
 const fetchPayrollData = async (employeeId) => {
-  // Simulate backend call to main.py
-  const mockData = {
-    employee_id: employeeId,
-    gross_pay: employeeId === "EMP001" ? 2400.0 : 3000.0,
-    net_pay: employeeId === "EMP001" ? 1950.36 : 2350.86
-  };
-  return new Promise(resolve => setTimeout(() => resolve(mockData), 1000));
+  try {
+    const response = await fetch(`http://localhost:5001/payroll/${employeeId}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching payroll:", error);
+    return null;
+  }
 };
 
 const PayrollScreen = () => {
   const [payrollData, setPayrollData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   
-  const employeeId = "EMP001"; // Hardcoded for demo
+  const employeeId = "EMP001";
+  
+  const authenticate = async () => {
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Mock fingerprint scan
+    setAuthenticated(true);
+    setLoading(false);
+  };
   
   const loadPayroll = async () => {
     setLoading(true);
-    try {
-      const data = await fetchPayrollData(employeeId);
-      setPayrollData(data);
-    } catch (error) {
-      console.error("Error fetching payroll:", error);
-    } finally {
-      setLoading(false);
-    }
+    const data = await fetchPayrollData(employeeId);
+    setPayrollData(data);
+    setLoading(false);
   };
   
   useEffect(() => {
-    loadPayroll();
+    authenticate(); // Auto-authenticate for demo
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>PayrollNextGen</Text>
       {loading ? (
-        <Text>Loading...</Text>
-      ) : payrollData ? (
-        <View>
-          <Text style={styles.label}>Employee ID: {payrollData.employee_id}</Text>
-          <Text style={styles.label}>Gross Pay: £{payrollData.gross_pay.toFixed(2)}</Text>
-          <Text style={styles.label}>Net Pay: £{payrollData.net_pay.toFixed(2)}</Text>
-          <Button title="Refresh" onPress={loadPayroll} />
-        </View>
+        <Text>{authenticated ? "Loading payroll..." : "Scanning fingerprint..."}</Text>
+      ) : authenticated ? (
+        payrollData ? (
+          <View>
+            <Text style={styles.label}>Employee ID: {payrollData.employee_id}</Text>
+            <Text style={styles.label}>Gross Pay: £{payrollData.gross_pay.toFixed(2)}</Text>
+            <Text style={styles.label}>Net Pay: £{payrollData.net_pay.toFixed(2)}</Text>
+            <Button title="Refresh" onPress={loadPayroll} />
+          </View>
+        ) : (
+          <Text>No payroll data available</Text>
+        )
       ) : (
-        <Text>No payroll data available</Text>
+        <Button title="Login with Fingerprint" onPress={authenticate} />
       )}
     </View>
   );
