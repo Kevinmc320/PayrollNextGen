@@ -1,4 +1,4 @@
-// apps/emily/main.js - Charity Employee App with Backend API for PayrollPro Emily
+// apps/emily/main.js - Charity Employee App with Backend API and Biometric Stub
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
@@ -16,8 +16,16 @@ const fetchPayrollData = async (employeeId) => {
 const PayrollScreen = () => {
   const [payrollData, setPayrollData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   
   const employeeId = "EMP001";
+  
+  const authenticate = async () => {
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Mock biometric
+    setAuthenticated(true);
+    setLoading(false);
+  };
   
   const loadPayroll = async () => {
     setLoading(true);
@@ -27,24 +35,28 @@ const PayrollScreen = () => {
   };
   
   useEffect(() => {
-    loadPayroll();
+    authenticate(); // Auto-authenticate for demo
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>PayrollPro Emily</Text>
       {loading ? (
-        <Text>Loading...</Text>
-      ) : payrollData ? (
-        <View>
-          <Text style={styles.label}>Employee ID: {payrollData.employee_id}</Text>
-          <Text style={styles.label}>Base Gross: £{payrollData.base_gross.toFixed(2)}</Text>
-          <Text style={styles.label}>Gift Aid Relief: £{payrollData.gift_aid_relief.toFixed(2)}</Text>
-          <Text style={styles.label}>Net Pay: £{payrollData.net_pay.toFixed(2)}</Text>
-          <Button title="Refresh" onPress={loadPayroll} />
-        </View>
+        <Text>{authenticated ? "Loading payroll..." : "Authenticating..."}</Text>
+      ) : authenticated ? (
+        payrollData ? (
+          <View>
+            <Text style={styles.label}>Employee ID: {payrollData.employee_id}</Text>
+            <Text style={styles.label}>Base Gross: £{payrollData.base_gross.toFixed(2)}</Text>
+            <Text style={styles.label}>Gift Aid Relief: £{payrollData.gift_aid_relief.toFixed(2)}</Text>
+            <Text style={styles.label}>Net Pay: £{payrollData.net_pay.toFixed(2)}</Text>
+            <Button title="Refresh" onPress={loadPayroll} />
+          </View>
+        ) : (
+          <Text>No payroll data available</Text>
+        )
       ) : (
-        <Text>No payroll data available</Text>
+        <Button title="Login with Biometrics" onPress={authenticate} />
       )}
     </View>
   );
