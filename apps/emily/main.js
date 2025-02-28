@@ -4,15 +4,9 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 
 const fetchPayrollData = async (employeeId) => {
   try {
-    const response = await fetch(`http://localhost:5001/payroll/${employeeId}`);
+    const response = await fetch(`http://localhost:5001/charity_payroll/${employeeId}`);
     const data = await response.json();
-    // Mock charity adjustments—later from backend\emily\tax.py
-    const gift_aid = employeeId === "EMP001" ? 25.0 : 0.0;
-    return {
-      ...data,
-      gift_aid_relief: gift_aid,
-      net_pay: data.net_pay + gift_aid  // Simplified adjustment
-    };
+    return data;
   } catch (error) {
     console.error("Error fetching payroll:", error);
     return null;
@@ -44,7 +38,7 @@ const PayrollScreen = () => {
       ) : payrollData ? (
         <View>
           <Text style={styles.label}>Employee ID: {payrollData.employee_id}</Text>
-          <Text style={styles.label}>Base Gross: £{payrollData.gross_pay.toFixed(2)}</Text>
+          <Text style={styles.label}>Base Gross: £{payrollData.base_gross.toFixed(2)}</Text>
           <Text style={styles.label}>Gift Aid Relief: £{payrollData.gift_aid_relief.toFixed(2)}</Text>
           <Text style={styles.label}>Net Pay: £{payrollData.net_pay.toFixed(2)}</Text>
           <Button title="Refresh" onPress={loadPayroll} />
