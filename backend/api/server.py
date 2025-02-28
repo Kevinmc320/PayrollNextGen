@@ -1,5 +1,6 @@
-# backend/api/server.py - Simple Flask API for PayrollNextGen
+# backend/api/server.py - Simple Flask API for PayrollNextGen with CORS
 from flask import Flask, jsonify
+from flask_cors import CORS
 import sys
 import os
 
@@ -7,6 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import process_payroll
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/payroll/<employee_id>', methods=['GET'])
 def get_payroll(employee_id):
