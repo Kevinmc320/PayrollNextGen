@@ -1,16 +1,19 @@
 body {
   margin: 0;
   background-color: #fff;
+  font-family: Arial, sans-serif;
 }
 .app {
-  font-family: Arial, sans-serif;
   padding: 20px;
   text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7f5 0%, #e0f2e0 100%); /* Subtle green gradient */
 }
 .title {
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 .axiom {
   color: #32cd32; /* Bright lime green */
@@ -20,13 +23,15 @@ body {
 }
 .tagline {
   font-size: 18px;
-  color: #666;
+  color: #555;
   margin-bottom: 30px;
+  font-style: italic;
 }
 .button-container {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap; /* Responsive for smaller screens */
 }
 .nav-button {
   padding: 12px 24px;
@@ -34,40 +39,62 @@ body {
   background-color: #32cd32;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Button shadow */
 }
 .nav-button:hover {
   background-color: #228b22;
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 .emily {
   font-family: 'Comic Sans MS', cursive;
 }
 .emily::first-letter { color: #ff69b4; } /* Pink */
+/* Note: Multicolour Emily needs JS or more spans; keeping simple for now */
 .screen {
   margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .subtitle {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 15px;
+  color: #228b22;
 }
 .data {
   font-size: 16px;
-  margin: 5px 0;
+  margin: 8px 0;
+  color: #333;
 }
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .login-input {
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
-  border: 1px solid #32cd32;
+  border: 2px solid #32cd32;
   border-radius: 5px;
-  width: 200px;
+  width: 220px;
+  transition: border-color 0.3s ease;
+}
+.login-input:focus {
+  border-color: #228b22;
+  outline: none;
 }

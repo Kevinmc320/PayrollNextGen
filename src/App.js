@@ -19,42 +19,47 @@ export default function App() {
     }
   };
 
-  const fetchCorePayroll = () => {
-    if (!isAuthenticated) return;
-    console.log('Fetching Core Payroll');
-    axios.get('http://localhost:5001/payroll/EMP001')
-      .then(response => {
-        setCoreData(response.data);
-        setGovData(null);
-        setEmilyData(null);
-      })
-      .catch(error => console.error('Error:', error));
-  };
+const fetchCorePayroll = () => {
+  if (!isAuthenticated) return;
+  console.log('Fetching Core Payroll');
+  axios.get('http://localhost:5001/payroll/EMP001', {
+    headers: { Authorization: 'Bearer payroll123' }
+  })
+    .then(response => {
+      setCoreData(response.data);
+      setGovData(null);
+      setEmilyData(null);
+    })
+    .catch(error => console.error('Error:', error));
+};
 
-  const fetchGovPayroll = () => {
-    if (!isAuthenticated) return;
-    console.log('Fetching Government Payroll');
-    axios.get('http://localhost:5001/gov_payroll/EMP001')
-      .then(response => {
-        setGovData(response.data);
-        setCoreData(null);
-        setEmilyData(null);
-      })
-      .catch(error => console.error('Error:', error));
-  };
+const fetchGovPayroll = () => {
+  if (!isAuthenticated) return;
+  console.log('Fetching Government Payroll');
+  axios.get('http://localhost:5001/gov_payroll/EMP001', {
+    headers: { Authorization: 'Bearer payroll123' }
+  })
+    .then(response => {
+      setGovData(response.data);
+      setCoreData(null);
+      setEmilyData(null);
+    })
+    .catch(error => console.error('Error:', error));
+};
 
-  const fetchEmilyPayroll = () => {
-    if (!isAuthenticated) return;
-    console.log('Fetching Emily Payroll');
-    axios.get('http://localhost:5001/charity_payroll/EMP001')
-      .then(response => {
-        setEmilyData(response.data);
-        setCoreData(null);
-        setGovData(null);
-      })
-      .catch(error => console.error('Error:', error));
-  };
-
+const fetchEmilyPayroll = () => {
+  if (!isAuthenticated) return;
+  console.log('Fetching Emily Payroll');
+  axios.get('http://localhost:5001/charity_payroll/EMP001', {
+    headers: { Authorization: 'Bearer payroll123' }
+  })
+    .then(response => {
+      setEmilyData(response.data);
+      setCoreData(null);
+      setGovData(null);
+    })
+    .catch(error => console.error('Error:', error));
+};
   if (!isAuthenticated) {
     return (
       <div className="app">
