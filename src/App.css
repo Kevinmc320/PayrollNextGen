@@ -1,0 +1,39 @@
+.app {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  text-align: center;
+}
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.nav-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.nav-button:hover {
+  background-color: #0056b3;
+}
+.subtitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.screen {
+  margin-top: 20px;
+}
+.data {
+  font-size: 16px;
+  margin: 5px 0;
+}
