@@ -1,11 +1,26 @@
+body {
+  margin: 0;
+  background-color: #fff;
+}
 .app {
   font-family: Arial, sans-serif;
   padding: 20px;
   text-align: center;
 }
 .title {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: bold;
+  margin-bottom: 10px;
+}
+.axiom {
+  color: #32cd32; /* Bright lime green */
+}
+.pay {
+  color: #228b22; /* Darker forest green */
+}
+.tagline {
+  font-size: 18px;
+  color: #666;
   margin-bottom: 30px;
 }
 .button-container {
@@ -14,26 +29,45 @@
   gap: 20px;
 }
 .nav-button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: #32cd32;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 .nav-button:hover {
-  background-color: #0056b3;
+  background-color: #228b22;
 }
-.subtitle {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
+.emily {
+  font-family: 'Comic Sans MS', cursive;
 }
+.emily::first-letter { color: #ff69b4; } /* Pink */
 .screen {
   margin-top: 20px;
+}
+.subtitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 .data {
   font-size: 16px;
   margin: 5px 0;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.login-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #32cd32;
+  border-radius: 5px;
+  width: 200px;
 }
