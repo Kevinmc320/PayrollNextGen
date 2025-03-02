@@ -16,8 +16,9 @@ const Index = () => {
   const [leaveDate, setLeaveDate] = useState('');
   const [locationStatus, setLocationStatus] = useState('Checking...');
   const [shiftActive, setShiftActive] = useState(false);
+  const [activeTab, setActiveTab] = useState('Shift');
 
-const GEOZONE = { latitude: 54.5973, longitude: -5.9301, radius: 50000 }; // Belfast, 50km radius
+  const GEOZONE = { latitude: 54.5973, longitude: -5.9301, radius: 50000 }; // Belfast, 50km radius
 
   useEffect(() => {
     if (Platform.OS !== 'web') {
@@ -180,28 +181,12 @@ const GEOZONE = { latitude: 54.5973, longitude: -5.9301, radius: 50000 }; // Bel
   if (!isAuthenticated) {
     return (
       <View style={styles.app}>
-        <Text style={styles.title}>
-          <Text style={styles.axiom}>Axiom</Text>
-          <Text style={styles.pay}>Pay</Text>
-        </Text>
+        <Text style={styles.title}><Text style={styles.axiom}>Axiom</Text><Text style={styles.pay}>Pay</Text></Text>
         <Text style={styles.tagline}>Payroll Simplified</Text>
         <View style={styles.loginContainer}>
-          <TextInput
-            style={styles.loginInput}
-            value={employeeId}
-            onChangeText={setEmployeeId}
-            placeholder="Employee ID (e.g., EMP001)"
-          />
-          <TextInput
-            style={styles.loginInput}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Enter password"
-            secureTextEntry
-          />
-          <TouchableOpacity style={styles.navButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+          <TextInput style={styles.loginInput} value={employeeId} onChangeText={setEmployeeId} placeholder="Employee ID (e.g., EMP001)" />
+          <TextInput style={styles.loginInput} value={password} onChangeText={setPassword} placeholder="Enter password" secureTextEntry />
+          <TouchableOpacity style={styles.navButton} onPress={handleLogin}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
         </View>
       </View>
     );
@@ -209,59 +194,38 @@ const GEOZONE = { latitude: 54.5973, longitude: -5.9301, radius: 50000 }; // Bel
 
   return (
     <ScrollView style={styles.app}>
-      <Text style={styles.title}>
-        <Text style={styles.axiom}>Axiom</Text>
-        <Text style={styles.pay}>Pay</Text>
-      </Text>
+      <Text style={styles.title}><Text style={styles.axiom}>Axiom</Text><Text style={styles.pay}>Pay</Text></Text>
       <Text style={styles.tagline}>Payroll Simplified</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.navButton} onPress={fetchCorePayroll}>
-          <Text style={styles.buttonText}>AxiomPay Core</Text>
+      <View style={styles.tabContainer}>
+        <TouchableOpacity style={activeTab === 'Shift' ? styles.activeTab : styles.tab} onPress={() => setActiveTab('Shift')}>
+          <Text style={styles.tabText}>Shift</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={fetchGovPayroll}>
-          <Text style={styles.buttonText}>AxiomPay Government</Text>
+        <TouchableOpacity style={activeTab === 'Payroll' ? styles.activeTab : styles.tab} onPress={() => setActiveTab('Payroll')}>
+          <Text style={styles.tabText}>Payroll</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={fetchEmilyPayroll}>
-          <Text style={[styles.buttonText, styles.emilyText]}>AxiomPay Emily</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={fetchProfile}>
-          <Text style={styles.buttonText}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={shiftActive ? stopShift : startShift}>
-          <Text style={styles.buttonText}>{shiftActive ? 'Stop Shift' : 'Start Shift'}</Text>
+        <TouchableOpacity style={activeTab === 'Profile' ? styles.activeTab : styles.tab} onPress={() => setActiveTab('Profile')}>
+          <Text style={styles.tabText}>Profile</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.data}>Location Status: {locationStatus}</Text>
-      {coreData && (
-        <View style={styles.screen}>
-          <Text style={styles.subtitle}>AxiomPay Core</Text>
-          <Text style={styles.data}>Employee ID: {coreData.employee_id}</Text>
-          <Text style={styles.data}>Gross Pay: £{coreData.gross_pay.toFixed(2)}</Text>
-          <Text style={styles.data}>Net Pay: £{coreData.net_pay.toFixed(2)}</Text>
+      {activeTab === 'Shift' && (
+        <View>
+          <Text style={styles.data}>Location Status: {locationStatus}</Text>
+          <TouchableOpacity style={styles.navButton} onPress={shiftActive ? stopShift : startShift}>
+            <Text style={styles.buttonText}>{shiftActive ? 'Stop Shift' : 'Start Shift'}</Text>
+          </TouchableOpacity>
         </View>
       )}
-      {govData && (
-        <View style={styles.screen}>
-          <Text style={styles.subtitle}>AxiomPay Government</Text>
-          <Text style={styles.data}>Employee ID: {govData.employee_id}</Text>
-          <Text style={styles.data}>Base Gross: £{govData.base_gross.toFixed(2)}</Text>
-          <Text style={styles.data}>Danger Pay: £{govData.danger_pay.toFixed(2)}</Text>
-          <Text style={styles.data}>Night Shift Bonus: £{govData.night_shift_bonus.toFixed(2)}</Text>
-          <Text style={styles.data}>Net Pay: £{govData.net_pay.toFixed(2)}</Text>
+      {activeTab === 'Payroll' && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.navButton} onPress={fetchCorePayroll}><Text style={styles.buttonText}>AxiomPay Core</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.navButton} onPress={fetchGovPayroll}><Text style={styles.buttonText}>AxiomPay Government</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.navButton} onPress={fetchEmilyPayroll}><Text style={[styles.buttonText, styles.emilyText]}>AxiomPay Emily</Text></TouchableOpacity>
+          {coreData && <View style={styles.screen}><Text style={styles.subtitle}>AxiomPay Core</Text><Text style={styles.data}>Employee ID: {coreData.employee_id}</Text><Text style={styles.data}>Gross Pay: £{coreData.gross_pay.toFixed(2)}</Text><Text style={styles.data}>Net Pay: £{coreData.net_pay.toFixed(2)}</Text></View>}
+          {govData && <View style={styles.screen}><Text style={styles.subtitle}>AxiomPay Government</Text><Text style={styles.data}>Employee ID: {govData.employee_id}</Text><Text style={styles.data}>Base Gross: £{govData.base_gross.toFixed(2)}</Text><Text style={styles.data}>Danger Pay: £{govData.danger_pay.toFixed(2)}</Text><Text style={styles.data}>Night Shift Bonus: £{govData.night_shift_bonus.toFixed(2)}</Text><Text style={styles.data}>Net Pay: £{govData.net_pay.toFixed(2)}</Text></View>}
+          {emilyData && <View style={styles.screen}><Text style={styles.subtitle}>AxiomPay <Text style={styles.emilyText}>Emily</Text></Text><Text style={styles.data}>Employee ID: {emilyData.employee_id}</Text><Text style={styles.data}>Base Gross: £{emilyData.base_gross.toFixed(2)}</Text><Text style={styles.data}>Gift Aid Relief: £{emilyData.gift_aid_relief.toFixed(2)}</Text><Text style={styles.data}>Net Pay: £{emilyData.net_pay.toFixed(2)}</Text></View>}
         </View>
       )}
-      {emilyData && (
-        <View style={styles.screen}>
-          <Text style={styles.subtitle}>
-            AxiomPay <Text style={styles.emilyText}>Emily</Text>
-          </Text>
-          <Text style={styles.data}>Employee ID: {emilyData.employee_id}</Text>
-          <Text style={styles.data}>Base Gross: £{emilyData.base_gross.toFixed(2)}</Text>
-          <Text style={styles.data}>Gift Aid Relief: £{emilyData.gift_aid_relief.toFixed(2)}</Text>
-          <Text style={styles.data}>Net Pay: £{emilyData.net_pay.toFixed(2)}</Text>
-        </View>
-      )}
-      {profileData && (
+      {activeTab === 'Profile' && profileData && (
         <View style={styles.screen}>
           <Text style={styles.subtitle}>Profile</Text>
           <Text style={styles.data}>Employee ID: {profileData.employee_id}</Text>
@@ -275,28 +239,10 @@ const GEOZONE = { latitude: 54.5973, longitude: -5.9301, radius: 50000 }; // Bel
               {leave.start_date}: {leave.duration.days ? `${leave.duration.days} days` : `${leave.duration.hours} hours`}
             </Text>
           ))}
-          <TextInput
-            style={styles.loginInput}
-            value={leaveDuration}
-            onChangeText={setLeaveDuration}
-            placeholder="Duration (e.g., 2)"
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.loginInput}
-            value={leaveType}
-            onChangeText={setLeaveType}
-            placeholder="Type (days/hours)"
-          />
-          <TextInput
-            style={styles.loginInput}
-            value={leaveDate}
-            onChangeText={setLeaveDate}
-            placeholder="Start Date (e.g., 2025-03-10)"
-          />
-          <TouchableOpacity style={styles.navButton} onPress={requestLeave}>
-            <Text style={styles.buttonText}>Request Leave</Text>
-          </TouchableOpacity>
+          <TextInput style={styles.loginInput} value={leaveDuration} onChangeText={setLeaveDuration} placeholder="Duration (e.g., 2)" keyboardType="numeric" />
+          <TextInput style={styles.loginInput} value={leaveType} onChangeText={setLeaveType} placeholder="Type (days/hours)" />
+          <TextInput style={styles.loginInput} value={leaveDate} onChangeText={setLeaveDate} placeholder="Start Date (e.g., 2025-03-10)" />
+          <TouchableOpacity style={styles.navButton} onPress={requestLeave}><Text style={styles.buttonText}>Request Leave</Text></TouchableOpacity>
         </View>
       )}
     </ScrollView>
@@ -329,6 +275,27 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     fontStyle: 'italic',
     textAlign: 'center',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  tab: {
+    padding: 10,
+    backgroundColor: '#ccc',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  activeTab: {
+    padding: 10,
+    backgroundColor: '#32cd32',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  tabText: {
+    color: '#fff',
+    fontSize: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
